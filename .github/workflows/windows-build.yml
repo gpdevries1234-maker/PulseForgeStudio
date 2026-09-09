@@ -1,0 +1,52 @@
+name: Build Windows EXE and installer
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: read
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Set up .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Install Inno Setup
+        shell: powershell
+        run: choco install innosetup --yes --no-progress
+
+      - name: Build self-contained Windows application and installer
+        shell: powershell
+        run: |
+          Set-ExecutionPolicy -Scope Process Bypass
+          .\build-installer.ps1
+
+      - name: Upload portable EXE
+        uses: actions/upload-artifact@v4
+        with:
+          name: PulseForgeStudio-portable-x64
+          path: publish/**
+          if-no-files-found: error
+
+      - name: Upload installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: PulseForgeStudio-Setup-x64
+          path: dist/PulseForgeStudio-Setup-x64.exe
+          if-no-files-found: error
+*** Update File: PulseForgeStudio/README.md
+@@
+ The portable program appears in `publish`. With Inno Setup installed, the installer appears at `dist\PulseForgeStudio-Setup-x64.exe`.
+
+## Build with GitHub Actions
+
+Push this folder as the root of a GitHub repository. The included workflow at `.github/workflows/windows-build.yml` runs on Windows after every push to `main`, or manually through **Actions → Build Windows EXE and installer → Run workflow**. Download the resulting portable and installer artifacts from that workflow run.
