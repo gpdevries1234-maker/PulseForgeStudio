@@ -43,10 +43,3 @@ jobs:
           name: PulseForgeStudio-Setup-x64
           path: dist/PulseForgeStudio-Setup-x64.exe
           if-no-files-found: error
-*** Update File: PulseForgeStudio/README.md
-@@
- The portable program appears in `publish`. With Inno Setup installed, the installer appears at `dist\PulseForgeStudio-Setup-x64.exe`.
-
-## Build with GitHub Actions
-
-Push this folder as the root of a GitHub repository. The included workflow at `.github/workflows/windows-build.yml` runs on Windows after every push to `main`, or manually through **Actions → Build Windows EXE and installer → Run workflow**. Download the resulting portable and installer artifacts from that workflow run.
