@@ -154,7 +154,7 @@ public partial class MainWindow : Window
     private void Save_Click(object sender, RoutedEventArgs e)
     {
         var d = new SaveFileDialog { Filter = "PulseForge Project (*.pulse)|*.pulse", FileName = _project.Name + ".pulse" };
-        if (d.ShowDialog() == true) { _project.Name = Path.GetFileNameWithoutExtension(d.FileName); File.WriteAllText(d.FileName, JsonSerializer.Serialize(_project, new JsonSerializerOptions { WriteIndented = true })); RefreshAll(); StatusText.Content = "Project saved"; }
+        if (d.ShowDialog() == true) { _project.Name = System.IO.Path.GetFileNameWithoutExtension(d.FileName); File.WriteAllText(d.FileName, JsonSerializer.Serialize(_project, new JsonSerializerOptions { WriteIndented = true })); RefreshAll(); StatusText.Content = "Project saved"; }
     }
 
     private void Open_Click(object sender, RoutedEventArgs e)
